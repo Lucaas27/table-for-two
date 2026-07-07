@@ -1,0 +1,7 @@
+﻿services:
+  tablefortwo.api:
+    image: tablefortwo.api
+    build:
+      context: .
+      dockerfile: src/api/TableForTwo.API/Dockerfile
+
