@@ -5,8 +5,13 @@ The core flow is: save recipes → plan the week → generate one shared shoppin
 
 ## Current status
 
-This repository currently contains planning and architecture documentation only.  
-Application implementation will start after assumptions and scope are confirmed.
+The repository now has initial project scaffolding for:
+- API (`src/api/TableForTwo.API`)
+- Worker (`src/worker/TableForTwo.Worker`)
+- Web (`src/web`)
+- Tests (`tests/TableForTwo.API.Tests`)
+
+Feature implementation has not started yet.
 
 ## Product and architecture docs
 
@@ -29,12 +34,13 @@ Application implementation will start after assumptions and scope are confirmed.
 3. Keep AI optional and safe (untrusted output, validated, user-approved).
 4. Prefer clear trade-offs over unnecessary complexity.
 
-## Expected commands (placeholders)
+## Baseline commands
 
-Exact commands will be confirmed once the projects are scaffolded.
-
-- Build: `<build-command>`
-- Unit tests: `<unit-test-command>`
-- Integration tests: `<integration-test-command>`
-- Lint/format: `<lint-or-format-command>`
-
+- Build solution: `dotnet build TableForTwo.sln`
+- Run API: `dotnet run --project src/api/TableForTwo.API/TableForTwo.API.csproj`
+- Run worker: `dotnet run --project src/worker/TableForTwo.Worker/TableForTwo.Worker.csproj`
+- Run tests: `dotnet test tests/TableForTwo.API.Tests/TableForTwo.API.Tests.csproj`
+- Start web app:
+  1. `cd src/web`
+  2. `npm install`
+  3. `npm run dev`
