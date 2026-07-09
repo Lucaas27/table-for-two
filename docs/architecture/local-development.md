@@ -12,14 +12,21 @@
 2. Mailpit (email preview/testing).
 3. MinIO (optional object storage for later photo/file use cases).
 
-## Workflow (placeholders)
+## Workflow (current scaffold baseline)
 
-Exact commands will be confirmed once API and web projects are scaffolded.
+Use `README.md` as the source of truth for day-to-day run commands.  
+Current baseline:
 
-1. Start infrastructure: `<compose-up-command>`
-2. Run backend API: `<run-api-command>`
-3. Run web app: `<run-web-command>`
-4. Stop infrastructure: `<compose-down-command>`
+1. Scaffold build check: `dotnet build TableForTwo.sln && npm --prefix src/web run lint && npm --prefix src/web run build`
+2. Run API: `dotnet run --project src/api/TableForTwo.API/TableForTwo.API.csproj`
+3. Run worker: `dotnet run --project src/worker/TableForTwo.Worker/TableForTwo.Worker.csproj`
+4. Run tests: `dotnet test tests/TableForTwo.API.Tests/TableForTwo.API.Tests.csproj`
+5. Start web app:
+   - `cd src/web`
+   - `npm install`
+   - `npm run dev`
+
+Infrastructure service bootstrap commands will be added in M0 once PostgreSQL, Mailpit, and MinIO are wired for local use.
 
 ## Configuration notes
 
@@ -31,4 +38,3 @@ Exact commands will be confirmed once API and web projects are scaffolded.
 
 - API health endpoint should verify API process health and database connectivity.
 - Worker health should report liveness and queue-processing capability when enabled.
-
