@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
 using Npgsql;
-using TableForTwo.API.Infrastructure.Configuration;
 using TableForTwo.API.Infrastructure.Configuration.Options;
 
 namespace TableForTwo.API.Infrastructure.Startup;
@@ -11,11 +10,20 @@ public sealed class DatabaseConnectivityStartupCheck(
 {
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        await using var connection = new NpgsqlConnection(postgresOptions.Value.ConnectionString);
-        await connection.OpenAsync(cancellationToken);
-        await connection.CloseAsync();
+        logger.LogInformation("Checking PostgreSQL connectivity during startup.");
 
-        logger.LogInformation("PostgreSQL connectivity verified during startup.");
+        try
+        {
+            await using var connection = new NpgsqlConnection(postgresOptions.Value.ConnectionString);
+            await connection.OpenAsync(cancellationToken);
+
+            logger.LogInformation("PostgreSQL connectivity verified during startup.");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "PostgreSQL connectivity check failed during startup.");
+            throw;
+        }
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
