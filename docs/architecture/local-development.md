@@ -17,7 +17,7 @@
 Use `README.md` as the source of truth for day-to-day run commands.  
 Current baseline:
 
-1. Build solution: `dotnet build TableForTwo.sln`
+1. Scaffold build check: `dotnet build TableForTwo.sln && npm --prefix src/web run lint && npm --prefix src/web run build`
 2. Run API: `dotnet run --project src/api/TableForTwo.API/TableForTwo.API.csproj`
 3. Run worker: `dotnet run --project src/worker/TableForTwo.Worker/TableForTwo.Worker.csproj`
 4. Run tests: `dotnet test tests/TableForTwo.API.Tests/TableForTwo.API.Tests.csproj`

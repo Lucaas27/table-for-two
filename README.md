@@ -36,7 +36,8 @@ Feature implementation has not started yet.
 
 ## Baseline commands
 
-- Build solution: `dotnet build TableForTwo.sln`
+- Scaffold build check (API/worker/tests + web lint/build): `dotnet build TableForTwo.sln && npm --prefix src/web run lint && npm --prefix src/web run build`
+- Build .NET solution only: `dotnet build TableForTwo.sln`
 - Run API: `dotnet run --project src/api/TableForTwo.API/TableForTwo.API.csproj`
 - Run worker: `dotnet run --project src/worker/TableForTwo.Worker/TableForTwo.Worker.csproj`
 - Run tests: `dotnet test tests/TableForTwo.API.Tests/TableForTwo.API.Tests.csproj`

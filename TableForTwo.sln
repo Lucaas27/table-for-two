@@ -11,6 +11,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "worker", "worker", "{89BA21
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{AA961A4B-E709-4C6C-B2B7-93C00656BD32}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{D3E34E9F-3E8F-4301-8EC6-F90BE1028839}"
+	ProjectSection(SolutionItems) = preProject
+		src\web\eslint.config.js = src\web\eslint.config.js
+		src\web\package.json = src\web\package.json
+		src\web\tsconfig.app.json = src\web\tsconfig.app.json
+		src\web\tsconfig.json = src\web\tsconfig.json
+		src\web\tsconfig.node.json = src\web\tsconfig.node.json
+		src\web\vite.config.ts = src\web\vite.config.ts
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableForTwo.Worker", "src\worker\TableForTwo.Worker\TableForTwo.Worker.csproj", "{4F4D9761-197C-426D-AF48-2D1DB2A16EB1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
@@ -44,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{89BA21D6-604E-9DA1-5F6C-9062FD58212E} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{AA961A4B-E709-4C6C-B2B7-93C00656BD32} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{D3E34E9F-3E8F-4301-8EC6-F90BE1028839} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{4F4D9761-197C-426D-AF48-2D1DB2A16EB1} = {89BA21D6-604E-9DA1-5F6C-9062FD58212E}
 		{0F7A5E97-8391-4C23-8CFB-EA08DA0CBBC8} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{89D978D3-CCFD-42FE-8CE8-DD93B18A13CD} = {AA961A4B-E709-4C6C-B2B7-93C00656BD32}
