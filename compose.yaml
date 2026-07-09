@@ -1,7 +1,70 @@
 ﻿services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: tablefortwo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${TABLEFORTWO_POSTGRES_USER:-table_for_two}
+      POSTGRES_PASSWORD: ${TABLEFORTWO_POSTGRES_PASSWORD:-table_for_two}
+      POSTGRES_DB: ${TABLEFORTWO_POSTGRES_DEV_DB:-table_for_two_dev}
+    ports:
+      - "${TABLEFORTWO_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - tablefortwo-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${TABLEFORTWO_POSTGRES_USER:-table_for_two} -d ${TABLEFORTWO_POSTGRES_DEV_DB:-table_for_two_dev}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: tablefortwo-mailpit
+    restart: unless-stopped
+    ports:
+      - "${TABLEFORTWO_MAILPIT_SMTP_PORT:-1025}:1025"
+      - "${TABLEFORTWO_MAILPIT_UI_PORT:-8025}:8025"
+
+  minio:
+    image: minio/minio:latest
+    container_name: tablefortwo-minio
+    profiles: ["optional-storage"]
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${TABLEFORTWO_MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${TABLEFORTWO_MINIO_ROOT_PASSWORD:-minioadmin}
+    ports:
+      - "${TABLEFORTWO_MINIO_PORT:-9000}:9000"
+      - "${TABLEFORTWO_MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - tablefortwo-minio-data:/data
+
   tablefortwo.api:
     image: tablefortwo.api
+    profiles: ["app"]
     build:
       context: .
       dockerfile: src/api/TableForTwo.API/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      Infrastructure__Postgres__ConnectionString: Host=postgres;Port=5432;Database=${TABLEFORTWO_POSTGRES_DEV_DB:-table_for_two_dev};Username=${TABLEFORTWO_POSTGRES_USER:-table_for_two};Password=${TABLEFORTWO_POSTGRES_PASSWORD:-table_for_two}
+      Infrastructure__Mailpit__Host: mailpit
+      Infrastructure__Mailpit__Port: 1025
+      Infrastructure__Mailpit__SenderEmail: noreply@tablefortwo.local
+      Infrastructure__Minio__Enabled: ${TABLEFORTWO_MINIO_ENABLED:-false}
+      Infrastructure__Minio__Endpoint: minio:9000
+      Infrastructure__Minio__AccessKey: ${TABLEFORTWO_MINIO_ROOT_USER:-minioadmin}
+      Infrastructure__Minio__SecretKey: ${TABLEFORTWO_MINIO_ROOT_PASSWORD:-minioadmin}
+      Infrastructure__Minio__Bucket: table-for-two-dev
+      Infrastructure__Minio__UseSsl: false
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
 
+volumes:
+  tablefortwo-postgres-data:
+  tablefortwo-minio-data:
