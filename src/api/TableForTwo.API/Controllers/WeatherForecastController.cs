@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace TableForTwo.API.Controllers;
 
@@ -21,5 +22,38 @@ public class WeatherForecastController : ControllerBase
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+    }
+
+    [HttpPost("validate")]
+    public IActionResult Validate([FromBody] ForecastRequest request)
+    {
+        return Accepted(new { request.Name, request.Servings });
+    }
+
+    [HttpGet("missing")]
+    public IActionResult Missing()
+    {
+        return NotFound();
+    }
+
+    [HttpPost("conflict")]
+    public IActionResult ConflictExample()
+    {
+        return Conflict();
+    }
+
+    [HttpGet("fail")]
+    public IActionResult Fail()
+    {
+        throw new InvalidOperationException("Simulated failure for error contract verification.");
+    }
+
+    public sealed class ForecastRequest
+    {
+        [Required]
+        public string? Name { get; init; }
+
+        [Range(1, 20)]
+        public int Servings { get; init; }
     }
 }
