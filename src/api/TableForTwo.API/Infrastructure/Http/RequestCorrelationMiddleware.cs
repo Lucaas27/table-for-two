@@ -5,6 +5,7 @@ namespace TableForTwo.API.Infrastructure.Http;
 public sealed class RequestCorrelationMiddleware(RequestDelegate next, ILogger<RequestCorrelationMiddleware> logger)
 {
     public const string HeaderName = "X-Correlation-ID";
+    private const int MaxCorrelationIdLength = 128;
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -50,7 +51,10 @@ public sealed class RequestCorrelationMiddleware(RequestDelegate next, ILogger<R
         if (context.Request.Headers.TryGetValue(HeaderName, out var requestValue)
             && !string.IsNullOrWhiteSpace(requestValue.ToString()))
         {
-            return requestValue.ToString();
+            var correlationId = requestValue.ToString();
+            return correlationId.Length <= MaxCorrelationIdLength
+                ? correlationId
+                : correlationId[..MaxCorrelationIdLength];
         }
 
         return null;
