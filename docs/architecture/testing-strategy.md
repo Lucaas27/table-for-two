@@ -28,15 +28,19 @@
 - Testcontainers for PostgreSQL-backed integration tests.
 - Frontend test stack to be selected during web scaffolding.
 
-## Quality gates (placeholders)
+## Quality gates
 
-- Build: `<build-command>`
-- Unit tests: `<unit-test-command>`
-- Integration tests: `<integration-test-command>`
-- Lint/format/type checks: `<quality-command>`
+- Build: `dotnet build TableForTwo.sln`
+- Backend tests: `dotnet test tests/TableForTwo.API.Tests/TableForTwo.API.Tests.csproj`
+- Frontend lint/type/build: `npm --prefix src/web run lint && npm --prefix src/web run build`
+
+## Current CI baseline
+
+- Pull requests run backend restore/build/test in GitHub Actions.
+- Backend integration tests use Testcontainers with PostgreSQL rather than a shared CI database service.
+- Pull requests also run web dependency install, lint, and production build checks.
 
 ## Trade-offs
 
 - More integration tests increase confidence but cost runtime; focus on critical paths first.
 - Full E2E coverage is valuable later, but not needed to start delivering MVP slices.
-

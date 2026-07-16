@@ -4,10 +4,17 @@ using TableForTwo.API.Infrastructure.Configuration.Options;
 
 namespace TableForTwo.API.Infrastructure.Startup;
 
+/// <summary>
+/// Verifies database connectivity when the API starts.
+/// </summary>
 public sealed class DatabaseConnectivityStartupCheck(
     IOptions<PostgresOptions> postgresOptions,
     ILogger<DatabaseConnectivityStartupCheck> logger) : IHostedService
 {
+    /// <summary>
+    /// Runs the startup connectivity check.
+    /// </summary>
+    /// <param name="cancellationToken">A token that cancels startup.</param>
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         logger.LogInformation("Checking PostgreSQL connectivity during startup.");
@@ -53,6 +60,11 @@ public sealed class DatabaseConnectivityStartupCheck(
         }
     }
 
+    /// <summary>
+    /// Stops the startup check service.
+    /// </summary>
+    /// <param name="cancellationToken">A token that cancels shutdown.</param>
+    /// <returns>A completed task.</returns>
     public Task StopAsync(CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
