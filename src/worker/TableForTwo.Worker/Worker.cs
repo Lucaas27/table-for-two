@@ -1,5 +1,8 @@
 namespace TableForTwo.Worker;
 
+/// <summary>
+/// A minimal background worker used to verify hosted-service setup.
+/// </summary>
 public class Worker(ILogger<Worker> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

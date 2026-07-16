@@ -5,8 +5,17 @@ using TableForTwo.API.Infrastructure.Configuration.Options;
 
 namespace TableForTwo.API.Infrastructure.Health;
 
+/// <summary>
+/// Verifies that PostgreSQL is reachable for health reporting.
+/// </summary>
 public sealed class PostgresHealthCheck(IOptions<PostgresOptions> postgresOptions) : IHealthCheck
 {
+    /// <summary>
+    /// Executes the PostgreSQL readiness check.
+    /// </summary>
+    /// <param name="context">The health check execution context.</param>
+    /// <param name="cancellationToken">A token that cancels the check.</param>
+    /// <returns>The health status for PostgreSQL connectivity.</returns>
     public async Task<HealthCheckResult> CheckHealthAsync(
         HealthCheckContext context,
         CancellationToken cancellationToken = default)

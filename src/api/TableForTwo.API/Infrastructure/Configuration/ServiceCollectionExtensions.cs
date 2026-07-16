@@ -2,8 +2,17 @@ using TableForTwo.API.Infrastructure.Configuration.Options;
 
 namespace TableForTwo.API.Infrastructure.Configuration;
 
+/// <summary>
+/// Registers API configuration options.
+/// </summary>
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Binds and validates application option objects.
+    /// </summary>
+    /// <param name="services">The service collection to configure.</param>
+    /// <param name="configuration">The source configuration.</param>
+    /// <returns>The same service collection for chaining.</returns>
     public static IServiceCollection AddApplicationOptions(
         this IServiceCollection services,
         IConfiguration configuration)

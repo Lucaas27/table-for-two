@@ -2,8 +2,14 @@ using System.Diagnostics;
 
 namespace TableForTwo.API.Infrastructure.Http;
 
+/// <summary>
+/// Adds a request correlation identifier to log scopes and response headers.
+/// </summary>
 public sealed class RequestCorrelationMiddleware(RequestDelegate next, ILogger<RequestCorrelationMiddleware> logger)
 {
+    /// <summary>
+    /// The header used to propagate correlation identifiers.
+    /// </summary>
     public const string HeaderName = "X-Correlation-ID";
     private const int MaxCorrelationIdLength = 128;
 
@@ -35,6 +41,11 @@ public sealed class RequestCorrelationMiddleware(RequestDelegate next, ILogger<R
         }
     }
 
+    /// <summary>
+    /// Resolves the correlation identifier for the current request.
+    /// </summary>
+    /// <param name="context">The current HTTP context.</param>
+    /// <returns>The correlation identifier that should be used for this request.</returns>
     public static string GetCorrelationId(HttpContext context)
     {
         if (context.Response.Headers.TryGetValue(HeaderName, out var responseValue)

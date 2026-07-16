@@ -88,6 +88,9 @@ app.MapControllers();
 
 app.Run();
 
+/// <summary>
+/// Test host entry point marker for integration tests.
+/// </summary>
 public partial class Program
 {
 }
