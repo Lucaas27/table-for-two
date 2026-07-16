@@ -38,6 +38,9 @@ Feature implementation has not started yet.
 
 - Scaffold build check (API/worker/tests + web lint/build): `dotnet build TableForTwo.sln && npm --prefix src/web run lint && npm --prefix src/web run build`
 - Build .NET solution only: `dotnet build TableForTwo.sln`
+- Start local infrastructure (PostgreSQL + Mailpit): `docker compose up -d postgres mailpit`
+- Start optional MinIO profile: `docker compose --profile optional-storage up -d minio`
+- Stop local infrastructure: `docker compose down`
 - Run API: `dotnet run --project src/api/TableForTwo.API/TableForTwo.API.csproj`
 - Run worker: `dotnet run --project src/worker/TableForTwo.Worker/TableForTwo.Worker.csproj`
 - Run tests: `dotnet test tests/TableForTwo.API.Tests/TableForTwo.API.Tests.csproj`
@@ -45,3 +48,19 @@ Feature implementation has not started yet.
   1. `cd src/web`
   2. `npm install`
   3. `npm run dev`
+
+## Local environment baseline
+
+- Copy `.env.example` to `.env` for Docker Compose variable overrides.
+- API and worker configuration follows .NET `IOptions` section binding with environment keys:
+  - `Infrastructure__Postgres__ConnectionString`
+  - `Infrastructure__Mailpit__Host`
+  - `Infrastructure__Mailpit__Port`
+  - `Infrastructure__Mailpit__SenderEmail`
+  - `Infrastructure__Minio__Enabled`
+  - `Infrastructure__Minio__Endpoint`
+  - `Infrastructure__Minio__AccessKey`
+  - `Infrastructure__Minio__SecretKey`
+  - `Infrastructure__Minio__Bucket`
+  - `Infrastructure__Minio__UseSsl`
+- Keep separate database names for development and test (`table_for_two_dev` / `table_for_two_test` by default).

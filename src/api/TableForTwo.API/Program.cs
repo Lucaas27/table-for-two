@@ -1,12 +1,23 @@
 using Scalar.AspNetCore;
+using TableForTwo.API.Infrastructure.Configuration;
+using TableForTwo.API.Infrastructure.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddApplicationOptions(builder.Configuration);
+builder.Services.AddHostedService<DatabaseConnectivityStartupCheck>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSimpleConsole(options =>
+{
+    options.SingleLine = true;
+    options.TimestampFormat = "HH:mm:ss ";
+});
 
 var app = builder.Build();
 
